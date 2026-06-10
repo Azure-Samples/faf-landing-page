@@ -35,6 +35,29 @@ export const REPO_URL =
 export const KB_REPO_URL =
   "https://azure-samples.github.io/FAF-knowledge-bases";
 
+// ── Request Access (mailto) ────────────────────────────────────
+const ACCESS_RECIPIENTS = "dantelmo@microsoft.com,nadeemis@microsoft.com";
+
+const ACCESS_SUBJECT = "Factory Agents Forge — Repository Access Request";
+
+const ACCESS_BODY = `Hi Factory Agents Forge team,
+
+I'd like to request access to the Factory Agents Forge repository.
+
+• GitHub username *:
+• Name *:
+• Requested access level (Read / Write) *:
+• Organization / team:
+• Reason for access:
+
+Note: Please provide your personal/public GitHub username, NOT your GitHub EMU (Enterprise Managed User) id — these usually end with "_microsoft" and cannot be added as collaborators.
+
+Thanks!`;
+
+export const REQUEST_ACCESS_MAILTO = `mailto:${ACCESS_RECIPIENTS}?subject=${encodeURIComponent(
+  ACCESS_SUBJECT
+)}&body=${encodeURIComponent(ACCESS_BODY)}`;
+
 // ── Stats ──────────────────────────────────────────────────────
 export interface Stat {
   icon: Icon;
