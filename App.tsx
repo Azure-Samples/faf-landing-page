@@ -535,7 +535,7 @@ function TechnologyPillarsSection() {
                     className="inline-flex items-center gap-2"
                   >
                     <GithubLogo weight="fill" size={16} />
-                    Explore Knowledge Bases repo
+                    Explore Knowledge Bases
                   </a>
                 </Button>
               </div>

@@ -33,7 +33,7 @@ export const REPO_URL =
   "https://github.com/Azure-Samples/factory-agents-forge";
 
 export const KB_REPO_URL =
-  "https://azure-samples.github.io/FAF-knowledge-bases";
+  "https://azure-samples.github.io/faf-kb-landing-page";
 
 // ── Request Access (mailto) ────────────────────────────────────
 const ACCESS_RECIPIENTS = "dantelmo@microsoft.com,nadeemis@microsoft.com";
