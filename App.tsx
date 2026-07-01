@@ -42,7 +42,7 @@ function Nav() {
             <Rocket weight="fill" className="text-white" size={18} />
           </div>
           <span className="font-semibold text-[15px] tracking-tight text-foreground">
-            Factory Agents Forge
+            Agent Forge
           </span>
         </a>
 
@@ -114,8 +114,8 @@ function Hero() {
         >
           <div className="h-64 sm:h-72 md:h-80 lg:h-96 overflow-hidden">
             <img
-              src={`${import.meta.env.BASE_URL}images/FAF-logo.png`}
-              alt="Factory Agents Forge"
+              src={`${import.meta.env.BASE_URL}images/Agent-Forge-Logo-NB.png`}
+              alt="Agent Forge"
               className="h-[120%] w-auto object-contain drop-shadow-[0_0_60px_rgba(43,136,216,0.35)] -mt-[10%]"
             />
           </div>
@@ -191,7 +191,7 @@ function WhatSection() {
     <section id="what" className="py-32 md:py-40">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <SectionHeader
-          title="What is FAF"
+          title="What is Agent Forge"
           subtitle="An agentic development platform that helps you scope, design, and build generative AI applications — powered by specialized agents grounded in document templates, design guidance, and reusable IPs purpose-built for agentic apps."
         />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -340,7 +340,7 @@ function SkillsSection() {
                     />
                   </div>
                   <Badge variant="outline">
-                    {skill.provider === "faf" ? "FAF" : "Anthropic"}
+                    {skill.provider === "faf" ? "Agent Forge" : "Anthropic"}
                   </Badge>
                 </div>
 
@@ -370,7 +370,7 @@ function TechnologyPillarsSection() {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <SectionHeader
           title="Technology Pillars"
-          subtitle="Two foundational technologies that power every FAF agent — GitHub Copilot's agentic platform and curated knowledge bases with production-ready patterns for building AI apps."
+          subtitle="Two foundational technologies that power every Agent Forge agent — GitHub Copilot's agentic platform and curated knowledge bases with production-ready patterns for building AI apps."
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -413,7 +413,7 @@ function TechnologyPillarsSection() {
 
             <div className="relative space-y-4">
               <p className="text-muted-foreground leading-relaxed">
-                Every FAF agent is a{" "}
+                Every Agent Forge agent is a{" "}
                 <span className="text-foreground font-medium">GitHub Copilot custom agent</span>{" "}
                 that runs inside VS Code. Agents leverage Copilot's native capabilities — code understanding, multi-file editing, terminal execution — and extend them with domain-specific instructions, skills, and tool integrations.
               </p>
@@ -505,7 +505,7 @@ function TechnologyPillarsSection() {
             <div className="relative space-y-4">
               <p className="text-muted-foreground leading-relaxed">
                 Agents are only as good as the knowledge they're grounded in.{" "}
-                <span className="text-foreground font-medium">FAF Knowledge Bases</span>{" "}
+                <span className="text-foreground font-medium">Agent Forge Knowledge Bases</span>{" "}
                 are versioned packages of reference architectures, code patterns, and design templates maintained in a dedicated repository — ensuring agents always generate production-quality, up-to-date code for agentic apps.
               </p>
 
@@ -658,7 +658,7 @@ function SampleOutputsSection() {
       <div className="max-w-[1800px] mx-auto px-6 lg:px-12">
         <SectionHeader
           title="Sample Outputs"
-          subtitle="Real examples of what FAF agents produce — from PRDs and solution specs to feature backlogs and architecture diagrams."
+          subtitle="Real examples of what Agent Forge agents produce — from PRDs and solution specs to feature backlogs and architecture diagrams."
         />
 
         {/* Carousel */}
@@ -781,7 +781,7 @@ function GettingStartedSection() {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <SectionHeader
           title="Get Started"
-          subtitle="Two ways to start using Factory Agents Forge with GitHub Copilot."
+          subtitle="Two ways to start using Agent Forge with GitHub Copilot."
         />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[900px] mx-auto">
           {gettingStartedPaths.map((path, i) => (
@@ -920,7 +920,7 @@ function Footer() {
             <div className="w-6 h-6 rounded-md bg-gradient-to-br from-accent to-accent-dark flex items-center justify-center">
               <Sparkle weight="fill" className="text-white" size={14} />
             </div>
-            <span>Factory Agents Forge</span>
+            <span>Agent Forge</span>
           </div>
 
           <div className="flex items-center gap-8 text-sm text-muted-foreground">

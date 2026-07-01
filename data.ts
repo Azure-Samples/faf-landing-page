@@ -38,11 +38,11 @@ export const KB_REPO_URL =
 // ── Request Access (mailto) ────────────────────────────────────
 const ACCESS_RECIPIENTS = "dantelmo@microsoft.com,nadeemis@microsoft.com";
 
-const ACCESS_SUBJECT = "Factory Agents Forge — Repository Access Request";
+const ACCESS_SUBJECT = "Agent Forge (FAF) — Repository Access Request";
 
-const ACCESS_BODY = `Hi Factory Agents Forge team,
+const ACCESS_BODY = `Hi Agent Forge (FAF) team,
 
-I'd like to request access to the Factory Agents Forge repository.
+I'd like to request access to the Agent Forge repository.
 
 • GitHub username *:
 • Name *:
@@ -427,7 +427,7 @@ export const gettingStartedPaths: GettingStartedPath[] = [
     steps: [
       "Open GitHub Copilot Chat settings in VS Code",
       "Go to Plugins → Add plugin source",
-      "Paste the repo URL and select the Factory Agents Forge plugin",
+      "Paste the repo URL and select the Agent Forge plugin",
     ],
     cta: "View Install Guide",
     ctaLink: `${REPO_URL}/blob/main/docs/marketplace/INSTALL.md`,

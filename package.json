@@ -1,5 +1,5 @@
 {
-  "name": "factory-agents-forge-site",
+  "name": "agent-forge-site",
   "private": true,
   "type": "module",
   "scripts": {
