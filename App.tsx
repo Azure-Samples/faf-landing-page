@@ -1501,10 +1501,10 @@ export default function App() {
       <main>
         <Hero />
         <WhatSection />
+        <ScenariosSection />
         <AgentsSection />
         <SkillsSection />
         <TechnologyPillarsSection />
-        <ScenariosSection />
         <SampleOutputsSection />
         <GettingStartedSection />
         <CTASection />
