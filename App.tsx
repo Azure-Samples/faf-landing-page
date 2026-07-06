@@ -20,7 +20,6 @@ import {
   whatFeatures,
   agents,
   skills,
-  scenarios,
   sampleOutputs,
   gettingStartedPaths,
 } from "./data";
@@ -548,66 +547,569 @@ function TechnologyPillarsSection() {
 }
 
 /* ================================================================
-   AGENTIC SCENARIOS (S1–S6 timeline)
+   AGENTIC SCENARIOS (Interactive SVG Visualizations)
    ================================================================ */
+function CustomizationFlowSVG() {
+  const [hovered, setHovered] = useState<number | null>(null);
+
+  const nodes = [
+    { x: 10, w: 160, lines: ["Analyst &", "Architect"], phase: "SCOPING", sub: "PRD & Solution Spec", agents: ["Analyst", "Architect"] },
+    { x: 198, w: 160, lines: ["Accelerator", "Selection"], phase: "EVALUATION", sub: "Best-fit template", agents: ["Impl Rec."] },
+    { x: 386, w: 160, lines: ["Customization", "Backlog"], phase: "PLANNING", sub: "Gap backlog", agents: ["Product Owner"] },
+    { x: 574, w: 160, lines: ["Developer", "Customization"], phase: "DELIVERY", sub: "Template adaptation", agents: ["Developer"] },
+    { x: 762, w: 150, lines: ["Production", "Solution"], phase: "OUTPUT", sub: "Customer-ready app", agents: [] as string[] },
+  ];
+
+  const nodeY = 40;
+  const nodeH = 86;
+  const cy = nodeY + nodeH / 2;
+
+  return (
+    <svg
+      viewBox="0 0 920 200"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-full h-auto select-none"
+    >
+      <defs>
+        <linearGradient id="cfBg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="rgba(43,136,216,0.12)" />
+          <stop offset="100%" stopColor="rgba(43,136,216,0.03)" />
+        </linearGradient>
+        <linearGradient id="cfBgH" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="rgba(43,136,216,0.24)" />
+          <stop offset="100%" stopColor="rgba(43,136,216,0.08)" />
+        </linearGradient>
+        <linearGradient id="cfOut" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="rgba(43,136,216,0.18)" />
+          <stop offset="100%" stopColor="rgba(43,136,216,0.06)" />
+        </linearGradient>
+      </defs>
+
+      {/* Connections */}
+      {[0, 1, 2, 3].map((i) => {
+        const x1 = nodes[i].x + nodes[i].w;
+        const x2 = nodes[i + 1].x;
+        const active = hovered === i || hovered === i + 1;
+        return (
+          <g key={`c${i}`}>
+            <line
+              x1={x1 + 4} y1={cy} x2={x2 - 4} y2={cy}
+              stroke={active ? "rgba(43,136,216,0.15)" : "rgba(43,136,216,0.05)"}
+              strokeWidth={8} strokeLinecap="round"
+              style={{ transition: "stroke .3s" }}
+            />
+            <line
+              x1={x1 + 4} y1={cy} x2={x2 - 10} y2={cy}
+              stroke={active ? "rgba(43,136,216,0.6)" : "rgba(43,136,216,0.25)"}
+              strokeWidth={2} strokeDasharray="6 6"
+              style={{ transition: "stroke .3s" }}
+            >
+              <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="0.8s" repeatCount="indefinite" />
+            </line>
+            <polygon
+              points={`${x2 - 10},${cy - 5} ${x2 - 2},${cy} ${x2 - 10},${cy + 5}`}
+              fill={active ? "rgba(43,136,216,0.6)" : "rgba(43,136,216,0.25)"}
+              style={{ transition: "fill .3s" }}
+            />
+            <circle r={3} fill="#2b88d8">
+              <animateMotion
+                dur={`${1.4 + i * 0.2}s`}
+                repeatCount="indefinite"
+                path={`M${x1 + 4},${cy} L${x2 - 4},${cy}`}
+              />
+              <animate
+                attributeName="opacity" values="0;1;1;0"
+                keyTimes="0;0.15;0.85;1"
+                dur={`${1.4 + i * 0.2}s`}
+                repeatCount="indefinite"
+              />
+            </circle>
+          </g>
+        );
+      })}
+
+      {/* Nodes */}
+      {nodes.map((n, i) => {
+        const isH = hovered === i;
+        const isOut = i === nodes.length - 1;
+        const cx = n.x + n.w / 2;
+        const hasAgents = n.agents.length > 0;
+        const textY = n.lines.length === 1 ? (hasAgents ? cy - 3 : cy + 5) : (hasAgents ? cy - 10 : cy - 4);
+        return (
+          <g
+            key={i}
+            onMouseEnter={() => setHovered(i)}
+            onMouseLeave={() => setHovered(null)}
+            style={{ cursor: "pointer" }}
+          >
+            {isOut && (
+              <rect
+                x={n.x - 4} y={nodeY - 4}
+                width={n.w + 8} height={nodeH + 8}
+                rx={18} fill="none" stroke="#2b88d8" strokeWidth={1}
+              >
+                <animate attributeName="opacity" values="0.4;0" dur="2.5s" repeatCount="indefinite" />
+                <animate attributeName="x" values={`${n.x - 4};${n.x - 12}`} dur="2.5s" repeatCount="indefinite" />
+                <animate attributeName="y" values={`${nodeY - 4};${nodeY - 12}`} dur="2.5s" repeatCount="indefinite" />
+                <animate attributeName="width" values={`${n.w + 8};${n.w + 24}`} dur="2.5s" repeatCount="indefinite" />
+                <animate attributeName="height" values={`${nodeH + 8};${nodeH + 24}`} dur="2.5s" repeatCount="indefinite" />
+              </rect>
+            )}
+            <rect
+              x={n.x} y={nodeY} width={n.w} height={nodeH} rx={14}
+              fill={isH ? "url(#cfBgH)" : isOut ? "url(#cfOut)" : "url(#cfBg)"}
+              stroke={isH ? "rgba(43,136,216,0.6)" : isOut ? "rgba(43,136,216,0.35)" : "rgba(43,136,216,0.15)"}
+              strokeWidth={isH ? 1.5 : 1}
+              style={{ transition: "all .3s" }}
+            />
+            <text
+              x={cx} y={nodeY - 10} textAnchor="middle"
+              fill="#2b88d8" fontSize={9.5} fontWeight={700}
+              fontFamily="Inter,system-ui,sans-serif"
+              style={{ letterSpacing: "0.08em" }}
+            >
+              {n.phase}
+            </text>
+            {n.lines.map((line, j) => (
+              <text
+                key={j}
+                x={cx} y={textY + j * 18} textAnchor="middle"
+                fill={isH ? "#fff" : "#d4d4d8"}
+                fontSize={13.5} fontWeight={600}
+                fontFamily="Inter,system-ui,sans-serif"
+                style={{ transition: "fill .3s" }}
+              >
+                {line}
+              </text>
+            ))}
+            {hasAgents && n.agents.map((agent, k) => {
+              const cW = 4.5, pX = 10, bGap = 3, bH = 14;
+              const bY = cy + 20;
+              const widths = n.agents.map((a) => a.length * cW + pX);
+              const total = widths.reduce((s, w) => s + w, 0) + (n.agents.length - 1) * bGap;
+              let bX = cx - total / 2;
+              for (let m = 0; m < k; m++) bX += widths[m] + bGap;
+              const w = widths[k];
+              return (
+                <g key={`b${k}`}>
+                  <rect x={bX} y={bY} width={w} height={bH} rx={7}
+                    fill={isH ? "rgba(43,136,216,0.2)" : "rgba(43,136,216,0.1)"}
+                    stroke="rgba(43,136,216,0.25)" strokeWidth={0.5}
+                    style={{ transition: "fill .3s" }}
+                  />
+                  <text x={bX + w / 2} y={bY + 10} textAnchor="middle"
+                    fill="#2b88d8" fontSize={7.5} fontWeight={600}
+                    fontFamily="Inter,system-ui,sans-serif"
+                  >{agent}</text>
+                </g>
+              );
+            })}
+            <text
+              x={cx} y={nodeY + nodeH + 16} textAnchor="middle"
+              fill="#52525b" fontSize={9.5}
+              fontFamily="Inter,system-ui,sans-serif"
+            >
+              {n.sub}
+            </text>
+          </g>
+        );
+      })}
+      {/* Human in the Loop */}
+      {(() => {
+        const trackY = 168;
+        const activeNodes = nodes.slice(0, -1);
+        const positions = activeNodes.map(nd => nd.x + nd.w / 2);
+        const first = positions[0];
+        const last = positions[positions.length - 1];
+        return (
+          <g>
+            <line x1={first - 10} y1={trackY} x2={last + 10} y2={trackY}
+              stroke="rgba(43,136,216,0.12)" strokeWidth={1.5} strokeDasharray="3 3">
+              <animate attributeName="stroke-dashoffset" from="0" to="-6" dur="1s" repeatCount="indefinite" />
+            </line>
+            <circle r={2} fill="#2b88d8">
+              <animateMotion dur="3.5s" repeatCount="indefinite"
+                path={`M${first - 10},${trackY} L${last + 10},${trackY}`} />
+              <animate attributeName="opacity" values="0;0.7;0.7;0"
+                keyTimes="0;0.08;0.92;1" dur="3.5s" repeatCount="indefinite" />
+            </circle>
+            {positions.map((px, idx) => (
+              <g key={`hitl-${idx}`}>
+                {/* Bidirectional connector */}
+                <line x1={px} y1={nodeY + nodeH + 20} x2={px} y2={trackY - 8}
+                  stroke="rgba(43,136,216,0.15)" strokeWidth={1} strokeDasharray="2 3" />
+                {/* Up arrow (human feedback) */}
+                <path d={`M${px - 3},${nodeY + nodeH + 24} L${px},${nodeY + nodeH + 20} L${px + 3},${nodeY + nodeH + 24}`}
+                  fill="none" stroke="#2b88d8" strokeWidth={0.8} strokeLinecap="round" />
+                {/* Down arrow (agent output to review) */}
+                <path d={`M${px - 3},${trackY - 12} L${px},${trackY - 8} L${px + 3},${trackY - 12}`}
+                  fill="none" stroke="#2b88d8" strokeWidth={0.8} strokeLinecap="round" />
+                {/* Dot going down (output) */}
+                <circle r={1.5} fill="#2b88d8">
+                  <animateMotion dur="2s" repeatCount="indefinite"
+                    path={`M${px},${nodeY + nodeH + 21} L${px},${trackY - 9}`}
+                    begin={`${idx * 0.4}s`} />
+                  <animate attributeName="opacity" values="0;0.8;0.8;0"
+                    keyTimes="0;0.2;0.8;1" dur="2s" repeatCount="indefinite"
+                    begin={`${idx * 0.4}s`} />
+                </circle>
+                {/* Dot going up (feedback) */}
+                <circle r={1.5} fill="#4da3e8">
+                  <animateMotion dur="2s" repeatCount="indefinite"
+                    path={`M${px},${trackY - 9} L${px},${nodeY + nodeH + 21}`}
+                    begin={`${idx * 0.4 + 1}s`} />
+                  <animate attributeName="opacity" values="0;0.8;0.8;0"
+                    keyTimes="0;0.2;0.8;1" dur="2s" repeatCount="indefinite"
+                    begin={`${idx * 0.4 + 1}s`} />
+                </circle>
+                <circle cx={px} cy={trackY} r={9} fill="none" stroke="#2b88d8" strokeWidth={0.5}>
+                  <animate attributeName="r" values="9;14" dur="2.5s" repeatCount="indefinite"
+                    begin={`${idx * 0.5}s`} />
+                  <animate attributeName="opacity" values="0.3;0" dur="2.5s" repeatCount="indefinite"
+                    begin={`${idx * 0.5}s`} />
+                </circle>
+                <circle cx={px} cy={trackY} r={9}
+                  fill="rgba(43,136,216,0.06)" stroke="rgba(43,136,216,0.25)" strokeWidth={0.7} />
+                <circle cx={px} cy={trackY - 2.5} r={2.2}
+                  fill="none" stroke="#2b88d8" strokeWidth={0.8} />
+                <path d={`M${px - 3.5},${trackY + 5} C${px - 3.5},${trackY + 1.5} ${px + 3.5},${trackY + 1.5} ${px + 3.5},${trackY + 5}`}
+                  fill="none" stroke="#2b88d8" strokeWidth={0.8} />
+              </g>
+            ))}
+            <text x={(first + last) / 2} y={trackY + 22} textAnchor="middle"
+              fill="#2b88d8" fontSize={7.5} fontWeight={700}
+              fontFamily="Inter,system-ui,sans-serif"
+              style={{ letterSpacing: "0.12em" }}
+            >HUMAN IN THE LOOP</text>
+          </g>
+        );
+      })()}
+    </svg>
+  );
+}
+
+function DevelopmentFlowSVG() {
+  const [hovered, setHovered] = useState<number | null>(null);
+
+  const nodeY = 40;
+  const nodeH = 86;
+  const cy = nodeY + nodeH / 2;
+
+  const nodes = [
+    { x: 10, w: 145, lines: ["Analyst &", "Architect"], phase: "SCOPING", sub: "PRD & Solution Spec", agents: ["Analyst"] },
+    { x: 183, w: 145, lines: ["Detailed", "Design"], phase: "DESIGN", sub: "Technical Spec", agents: ["Architect"] },
+    { x: 356, w: 155, lines: ["Solution", "Scaffolding"], phase: "SCAFFOLDING", sub: "Code & Infra setup", agents: ["Impl Rec.", "Infra"] },
+    { x: 539, w: 145, lines: ["Backlog", "Planning"], phase: "PLANNING", sub: "Feature backlog", agents: ["Product Owner"] },
+    { x: 712, w: 155, lines: ["Developer", "Implementation"], phase: "IMPLEMENTATION", sub: "Build features", agents: ["Developer"] },
+    { x: 895, w: 145, lines: ["Custom", "Solution"], phase: "OUTPUT", sub: "Custom application", agents: [] as string[] },
+  ];
+
+  return (
+    <svg
+      viewBox="0 0 1050 200"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-full h-auto select-none"
+    >
+      <defs>
+        <linearGradient id="dfBg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="rgba(43,136,216,0.12)" />
+          <stop offset="100%" stopColor="rgba(43,136,216,0.03)" />
+        </linearGradient>
+        <linearGradient id="dfBgH" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="rgba(43,136,216,0.24)" />
+          <stop offset="100%" stopColor="rgba(43,136,216,0.08)" />
+        </linearGradient>
+        <linearGradient id="dfOut" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="rgba(43,136,216,0.18)" />
+          <stop offset="100%" stopColor="rgba(43,136,216,0.06)" />
+        </linearGradient>
+      </defs>
+
+      {/* Connections */}
+      {[0, 1, 2, 3, 4].map((i) => {
+        const x1 = nodes[i].x + nodes[i].w;
+        const x2 = nodes[i + 1].x;
+        const active = hovered === i || hovered === i + 1;
+        return (
+          <g key={`c${i}`}>
+            <line
+              x1={x1 + 4} y1={cy} x2={x2 - 4} y2={cy}
+              stroke={active ? "rgba(43,136,216,0.15)" : "rgba(43,136,216,0.05)"}
+              strokeWidth={8} strokeLinecap="round"
+              style={{ transition: "stroke .3s" }}
+            />
+            <line
+              x1={x1 + 4} y1={cy} x2={x2 - 10} y2={cy}
+              stroke={active ? "rgba(43,136,216,0.6)" : "rgba(43,136,216,0.25)"}
+              strokeWidth={2} strokeDasharray="6 6"
+              style={{ transition: "stroke .3s" }}
+            >
+              <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="0.8s" repeatCount="indefinite" />
+            </line>
+            <polygon
+              points={`${x2 - 10},${cy - 5} ${x2 - 2},${cy} ${x2 - 10},${cy + 5}`}
+              fill={active ? "rgba(43,136,216,0.6)" : "rgba(43,136,216,0.25)"}
+              style={{ transition: "fill .3s" }}
+            />
+            <circle r={3} fill="#2b88d8">
+              <animateMotion
+                dur={`${1.4 + i * 0.15}s`}
+                repeatCount="indefinite"
+                path={`M${x1 + 4},${cy} L${x2 - 4},${cy}`}
+              />
+              <animate
+                attributeName="opacity" values="0;1;1;0"
+                keyTimes="0;0.15;0.85;1"
+                dur={`${1.4 + i * 0.15}s`}
+                repeatCount="indefinite"
+              />
+            </circle>
+          </g>
+        );
+      })}
+
+      {/* Nodes */}
+      {nodes.map((n, i) => {
+        const isH = hovered === i;
+        const isOut = i === nodes.length - 1;
+        const cx = n.x + n.w / 2;
+        const hasAgents = n.agents.length > 0;
+        const textY = n.lines.length === 1 ? (hasAgents ? cy - 3 : cy + 5) : (hasAgents ? cy - 10 : cy - 4);
+        return (
+          <g
+            key={i}
+            onMouseEnter={() => setHovered(i)}
+            onMouseLeave={() => setHovered(null)}
+            style={{ cursor: "pointer" }}
+          >
+            {isOut && (
+              <rect
+                x={n.x - 4} y={nodeY - 4}
+                width={n.w + 8} height={nodeH + 8}
+                rx={18} fill="none" stroke="#2b88d8" strokeWidth={1}
+              >
+                <animate attributeName="opacity" values="0.4;0" dur="2.5s" repeatCount="indefinite" />
+                <animate attributeName="x" values={`${n.x - 4};${n.x - 12}`} dur="2.5s" repeatCount="indefinite" />
+                <animate attributeName="y" values={`${nodeY - 4};${nodeY - 12}`} dur="2.5s" repeatCount="indefinite" />
+                <animate attributeName="width" values={`${n.w + 8};${n.w + 24}`} dur="2.5s" repeatCount="indefinite" />
+                <animate attributeName="height" values={`${nodeH + 8};${nodeH + 24}`} dur="2.5s" repeatCount="indefinite" />
+              </rect>
+            )}
+            <rect
+              x={n.x} y={nodeY} width={n.w} height={nodeH} rx={14}
+              fill={isH ? "url(#dfBgH)" : isOut ? "url(#dfOut)" : "url(#dfBg)"}
+              stroke={isH ? "rgba(43,136,216,0.6)" : isOut ? "rgba(43,136,216,0.35)" : "rgba(43,136,216,0.15)"}
+              strokeWidth={isH ? 1.5 : 1}
+              style={{ transition: "all .3s" }}
+            />
+            <text
+              x={cx} y={nodeY - 10} textAnchor="middle"
+              fill="#2b88d8" fontSize={9.5} fontWeight={700}
+              fontFamily="Inter,system-ui,sans-serif"
+              style={{ letterSpacing: "0.08em" }}
+            >
+              {n.phase}
+            </text>
+            {n.lines.map((line, j) => (
+              <text
+                key={j}
+                x={cx} y={textY + j * 18} textAnchor="middle"
+                fill={isH ? "#fff" : "#d4d4d8"}
+                fontSize={13.5} fontWeight={600}
+                fontFamily="Inter,system-ui,sans-serif"
+                style={{ transition: "fill .3s" }}
+              >
+                {line}
+              </text>
+            ))}
+            {hasAgents && n.agents.map((agent, k) => {
+              const cW = 4.5, pX = 10, bGap = 3, bH = 14;
+              const bY = cy + 20;
+              const widths = n.agents.map((a) => a.length * cW + pX);
+              const total = widths.reduce((s, w) => s + w, 0) + (n.agents.length - 1) * bGap;
+              let bX = cx - total / 2;
+              for (let m = 0; m < k; m++) bX += widths[m] + bGap;
+              const w = widths[k];
+              return (
+                <g key={`b${k}`}>
+                  <rect x={bX} y={bY} width={w} height={bH} rx={7}
+                    fill={isH ? "rgba(43,136,216,0.2)" : "rgba(43,136,216,0.1)"}
+                    stroke="rgba(43,136,216,0.25)" strokeWidth={0.5}
+                    style={{ transition: "fill .3s" }}
+                  />
+                  <text x={bX + w / 2} y={bY + 10} textAnchor="middle"
+                    fill="#2b88d8" fontSize={7.5} fontWeight={600}
+                    fontFamily="Inter,system-ui,sans-serif"
+                  >{agent}</text>
+                </g>
+              );
+            })}
+            <text
+              x={cx} y={nodeY + nodeH + 16} textAnchor="middle"
+              fill="#52525b" fontSize={9.5}
+              fontFamily="Inter,system-ui,sans-serif"
+            >
+              {n.sub}
+            </text>
+          </g>
+        );
+      })}
+      {/* Human in the Loop */}
+      {(() => {
+        const trackY = 168;
+        const activeNodes = nodes.slice(0, -1);
+        const positions = activeNodes.map(nd => nd.x + nd.w / 2);
+        const first = positions[0];
+        const last = positions[positions.length - 1];
+        return (
+          <g>
+            <line x1={first - 10} y1={trackY} x2={last + 10} y2={trackY}
+              stroke="rgba(43,136,216,0.12)" strokeWidth={1.5} strokeDasharray="3 3">
+              <animate attributeName="stroke-dashoffset" from="0" to="-6" dur="1s" repeatCount="indefinite" />
+            </line>
+            <circle r={2} fill="#2b88d8">
+              <animateMotion dur="3.5s" repeatCount="indefinite"
+                path={`M${first - 10},${trackY} L${last + 10},${trackY}`} />
+              <animate attributeName="opacity" values="0;0.7;0.7;0"
+                keyTimes="0;0.08;0.92;1" dur="3.5s" repeatCount="indefinite" />
+            </circle>
+            {positions.map((px, idx) => (
+              <g key={`hitl-${idx}`}>
+                {/* Bidirectional connector */}
+                <line x1={px} y1={nodeY + nodeH + 20} x2={px} y2={trackY - 8}
+                  stroke="rgba(43,136,216,0.15)" strokeWidth={1} strokeDasharray="2 3" />
+                {/* Up arrow (human feedback) */}
+                <path d={`M${px - 3},${nodeY + nodeH + 24} L${px},${nodeY + nodeH + 20} L${px + 3},${nodeY + nodeH + 24}`}
+                  fill="none" stroke="#2b88d8" strokeWidth={0.8} strokeLinecap="round" />
+                {/* Down arrow (agent output to review) */}
+                <path d={`M${px - 3},${trackY - 12} L${px},${trackY - 8} L${px + 3},${trackY - 12}`}
+                  fill="none" stroke="#2b88d8" strokeWidth={0.8} strokeLinecap="round" />
+                {/* Dot going down (output) */}
+                <circle r={1.5} fill="#2b88d8">
+                  <animateMotion dur="2s" repeatCount="indefinite"
+                    path={`M${px},${nodeY + nodeH + 21} L${px},${trackY - 9}`}
+                    begin={`${idx * 0.4}s`} />
+                  <animate attributeName="opacity" values="0;0.8;0.8;0"
+                    keyTimes="0;0.2;0.8;1" dur="2s" repeatCount="indefinite"
+                    begin={`${idx * 0.4}s`} />
+                </circle>
+                {/* Dot going up (feedback) */}
+                <circle r={1.5} fill="#4da3e8">
+                  <animateMotion dur="2s" repeatCount="indefinite"
+                    path={`M${px},${trackY - 9} L${px},${nodeY + nodeH + 21}`}
+                    begin={`${idx * 0.4 + 1}s`} />
+                  <animate attributeName="opacity" values="0;0.8;0.8;0"
+                    keyTimes="0;0.2;0.8;1" dur="2s" repeatCount="indefinite"
+                    begin={`${idx * 0.4 + 1}s`} />
+                </circle>
+                <circle cx={px} cy={trackY} r={9} fill="none" stroke="#2b88d8" strokeWidth={0.5}>
+                  <animate attributeName="r" values="9;14" dur="2.5s" repeatCount="indefinite"
+                    begin={`${idx * 0.5}s`} />
+                  <animate attributeName="opacity" values="0.3;0" dur="2.5s" repeatCount="indefinite"
+                    begin={`${idx * 0.5}s`} />
+                </circle>
+                <circle cx={px} cy={trackY} r={9}
+                  fill="rgba(43,136,216,0.06)" stroke="rgba(43,136,216,0.25)" strokeWidth={0.7} />
+                <circle cx={px} cy={trackY - 2.5} r={2.2}
+                  fill="none" stroke="#2b88d8" strokeWidth={0.8} />
+                <path d={`M${px - 3.5},${trackY + 5} C${px - 3.5},${trackY + 1.5} ${px + 3.5},${trackY + 1.5} ${px + 3.5},${trackY + 5}`}
+                  fill="none" stroke="#2b88d8" strokeWidth={0.8} />
+              </g>
+            ))}
+            <text x={(first + last) / 2} y={trackY + 22} textAnchor="middle"
+              fill="#2b88d8" fontSize={7.5} fontWeight={700}
+              fontFamily="Inter,system-ui,sans-serif"
+              style={{ letterSpacing: "0.12em" }}
+            >HUMAN IN THE LOOP</text>
+          </g>
+        );
+      })()}
+    </svg>
+  );
+}
+
 function ScenariosSection() {
   return (
     <section id="scenarios" className="py-32 md:py-40">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <SectionHeader
           title="Agentic Scenarios"
-          subtitle="Five engagement scenarios that map where you are in the lifecycle to the recommended sequence of agents and workflows."
+          subtitle="Two engagement models that match the right approach to your project — accelerate with proven templates or build custom solutions from scratch."
         />
-        <div className="max-w-[1000px] mx-auto space-y-6">
-          {scenarios.map((scenario, i) => (
-            <motion.div
-              key={scenario.id}
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="relative flex gap-6 md:gap-8"
-            >
-              {/* Connector line */}
-              {i < scenarios.length - 1 && (
-                <div className="absolute left-[27px] top-[76px] w-px h-[calc(100%-40px)] bg-gradient-to-b from-accent/40 to-transparent" />
-              )}
 
-              {/* Scenario badge */}
+        <div className="space-y-12">
+          {/* ── Agentic Customization ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative p-8 md:p-12 rounded-3xl bg-card border border-border space-y-8 overflow-hidden"
+          >
+            <div className="absolute -top-20 -right-20 w-60 h-60 bg-accent/5 rounded-full blur-3xl" />
+
+            <div className="relative flex items-center gap-4">
               <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br from-accent to-accent-dark flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-accent/20">
-                {scenario.id}
+                01
               </div>
+              <div>
+                <h3 className="text-2xl md:text-3xl font-semibold tracking-tight">
+                  Agentic Customization
+                </h3>
+                <p className="text-sm text-accent mt-1">
+                  Template-first approach · High accelerator reusability
+                </p>
+              </div>
+            </div>
 
-              {/* Content card */}
-              <div className="flex-1 p-8 rounded-3xl bg-card border border-border space-y-3">
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                  <h3 className="text-xl font-semibold tracking-tight">
-                    {scenario.title}
-                  </h3>
-                </div>
-                <p className="text-sm font-medium text-accent">
-                  {scenario.startingPoint}
-                </p>
-                <p className="text-[15px] text-muted-foreground leading-relaxed">
-                  {scenario.description}
-                </p>
-                <div className="flex gap-1.5 flex-wrap pt-2">
-                  {scenario.keyAgents.map((agent) => (
-                    <Badge key={agent} variant="outline">
-                      {agent}
-                    </Badge>
-                  ))}
-                </div>
+            <div className="relative overflow-x-auto -mx-4 px-4 md:overflow-visible md:mx-0 md:px-0">
+              <div className="min-w-[720px]">
+                <CustomizationFlowSVG />
               </div>
-            </motion.div>
-          ))}
+            </div>
+
+          </motion.div>
+
+          {/* ── Agentic Development ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="relative p-8 md:p-12 rounded-3xl bg-card border border-border space-y-8 overflow-hidden"
+          >
+            <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-accent/5 rounded-full blur-3xl" />
+
+            <div className="relative flex items-center gap-4">
+              <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br from-accent to-accent-dark flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-accent/20">
+                02
+              </div>
+              <div>
+                <h3 className="text-2xl md:text-3xl font-semibold tracking-tight">
+                  Agentic Development
+                </h3>
+                <p className="text-sm text-accent mt-1">
+                  Build from scratch · Full flexibility
+                </p>
+              </div>
+            </div>
+
+            <div className="relative overflow-x-auto -mx-4 px-4 md:overflow-visible md:mx-0 md:px-0">
+              <div className="min-w-[800px]">
+                <DevelopmentFlowSVG />
+              </div>
+            </div>
+
+          </motion.div>
         </div>
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.5 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-10 text-center"
         >
           <a

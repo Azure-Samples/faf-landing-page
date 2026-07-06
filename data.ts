@@ -90,7 +90,7 @@ export const whatFeatures: Feature[] = [
     icon: Fingerprint,
     title: "Agentic Workflows",
     description:
-      "Six engagement scenarios (S1–S6) orchestrate scoping, design, and delivery of generative AI apps with human-in-the-loop gates. Whether you're running a full Factory engagement or adopting agentic practices on your own codebase, there's a workflow for you.",
+      "Two engagement models — Agentic Customization and Agentic Development — match the right approach to your project. Customize proven accelerator templates or build from scratch with role-specific agents, human-in-the-loop gates, and structured handoffs at every stage.",
   },
   {
     icon: Code,
