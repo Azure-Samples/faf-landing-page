@@ -171,11 +171,6 @@ function Hero() {
               Get access
             </a>
           </Button>
-          <Button variant="outline" size="lg" asChild>
-            <a href="#get-started" className="flex items-center gap-2">
-              Get started
-            </a>
-          </Button>
         </motion.div>
       </motion.div>
     </section>
