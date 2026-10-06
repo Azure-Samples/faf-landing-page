@@ -8,6 +8,7 @@ import {
   CaretLeft,
   CaretRight,
   Key,
+  Info,
 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +17,8 @@ import useEmblaCarousel from "embla-carousel-react";
 import {
   REPO_URL,
   KB_REPO_URL,
-  REQUEST_ACCESS_MAILTO,
+  GITHUB_ORG,
+  JOIN_ORG_URL,
   whatFeatures,
   agents,
   skills,
@@ -73,7 +75,7 @@ function Nav() {
           </Button>
 
           <Button variant="accent" size="sm" asChild>
-            <a href={REQUEST_ACCESS_MAILTO} className="flex items-center gap-2">
+            <a href="#get-started" className="flex items-center gap-2">
               <Key weight="bold" size={16} />
               <span className="hidden sm:inline">Get Access</span>
             </a>
@@ -164,7 +166,7 @@ function Hero() {
             </a>
           </Button>
           <Button variant="accent" size="lg" asChild>
-            <a href={REQUEST_ACCESS_MAILTO} className="flex items-center gap-2">
+            <a href="#get-started" className="flex items-center gap-2">
               <Key weight="bold" size={20} />
               Get access
             </a>
@@ -1284,7 +1286,46 @@ function GettingStartedSection() {
         <SectionHeader
           title="Get Started"
           subtitle="Two ways to start using Agent Forge with GitHub Copilot."
+          showAccess={false}
         />
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="max-w-[900px] mx-auto mb-8 p-5 md:p-6 rounded-2xl border border-accent/40 bg-accent-muted flex flex-col md:flex-row md:items-center gap-4 md:gap-6"
+        >
+          <div className="flex items-start gap-3 flex-1">
+            <Info weight="duotone" size={22} className="text-accent flex-shrink-0 mt-0.5" />
+            <p className="text-[15px] text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">Cannot access the repo?</strong>{" "}
+              You may need to join the <strong className="text-foreground">{GITHUB_ORG}</strong>{" "}
+              GitHub org. Go to{" "}
+              <a
+                href={JOIN_ORG_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-foreground underline underline-offset-4 hover:text-accent"
+              >
+                aka.ms/startright
+              </a>
+              , sign in with your EMU account (the one ending in{" "}
+              <code className="px-1 py-0.5 rounded bg-secondary text-foreground text-[13px]">_microsoft</code>
+              ), and join the org.
+            </p>
+          </div>
+          <Button variant="outline" size="sm" asChild>
+            <a
+              href={JOIN_ORG_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 flex-shrink-0"
+            >
+              Join the org
+              <ArrowSquareOut weight="bold" size={14} />
+            </a>
+          </Button>
+        </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[900px] mx-auto">
           {gettingStartedPaths.map((path, i) => (
             <motion.div
@@ -1477,10 +1518,7 @@ function SectionHeader({
       {showAccess && (
         <div className="flex justify-center pt-2">
           <Button variant="outline" size="sm" asChild>
-            <a
-              href={REQUEST_ACCESS_MAILTO}
-              className="flex items-center gap-2"
-            >
+            <a href="#get-started" className="flex items-center gap-2">
               <Key weight="bold" size={16} />
               Get Access
             </a>

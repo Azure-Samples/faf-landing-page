@@ -29,11 +29,16 @@ import {
   Scales,
 } from "@phosphor-icons/react";
 
-export const REPO_URL =
-  "https://github.com/Azure-Samples/factory-agents-forge";
+export const GITHUB_ORG = "customer-success-microsoft";
+
+export const GITHUB_ORG_URL = `https://github.com/${GITHUB_ORG}`;
+
+export const REPO_URL = `${GITHUB_ORG_URL}/faf-agents`;
+
+export const JOIN_ORG_URL = "https://aka.ms/startright";
 
 export const KB_REPO_URL =
-  "https://azure-samples.github.io/faf-kb-landing-page";
+  "https://github.com/customer-success-microsoft/faf-knowledge-bases";
 
 // ── Request Access (mailto) ────────────────────────────────────
 const ACCESS_RECIPIENTS = "dantelmo@microsoft.com,nadeemis@microsoft.com";
@@ -101,7 +106,7 @@ export const whatFeatures: Feature[] = [
 ];
 
 // ── Agents Catalog ─────────────────────────────────────────────
-export type AgentStatus = "active" | "development" | "planned";
+export type AgentStatus = "active" | "development" | "planned" | "preview";
 export type AgentPhase = "Pre-Engagement" | "Scoping" | "Delivery";
 
 export interface Agent {
@@ -123,7 +128,7 @@ export const agents: Agent[] = [
     description:
       "Synthesizes customer context, requirements, and use cases into a structured PRD — using document templates purpose-built for scoping generative AI applications.",
     status: "active",
-    docPath: "docs/agents/README-analyst-agent.md",
+    docPath: "docs/genai/agents/README-analyst-agent.md",
   },
   {
     icon: TreeStructure,
@@ -133,7 +138,7 @@ export const agents: Agent[] = [
     description:
       "Translates the PRD into a solution specification and technical architecture for generative AI apps — grounded in design guidance, reference patterns, and Azure architecture diagrams.",
     status: "active",
-    docPath: "docs/agents/README-architect-agent.md",
+    docPath: "docs/genai/agents/README-architect-agent.md",
   },
   {
     icon: Compass,
@@ -143,7 +148,7 @@ export const agents: Agent[] = [
     description:
       "Evaluates reusable IPs and accelerators purpose-built for agentic apps, recommends Agentic Customization or Development, and scaffolds the chosen path.",
     status: "active",
-    docPath: "docs/agents/README-impl-recommender-agent.md",
+    docPath: "docs/genai/agents/README-impl-recommender-agent.md",
   },
   {
     icon: UserCircleCheck,
@@ -153,7 +158,7 @@ export const agents: Agent[] = [
     description:
       "Transforms solution specs into structured feature backlogs with user stories, acceptance criteria, and naming conventions.",
     status: "active",
-    docPath: "docs/agents/README-product-owner-agent.md",
+    docPath: "docs/genai/agents/README-product-owner-agent.md",
   },
   {
     icon: Code,
@@ -163,7 +168,7 @@ export const agents: Agent[] = [
     description:
       "Implements scoped changes, runs validations, and fixes defects — grounded in knowledge bases with production-ready patterns for building agentic apps.",
     status: "preview",
-    docPath: "docs/agents/README-dev-agent.md",
+    docPath: "docs/genai/agents/README-dev-agent.md",
   },
   {
     icon: CloudArrowUp,
@@ -173,7 +178,7 @@ export const agents: Agent[] = [
     description:
       "Generates Azure infrastructure (Bicep + azd) from SOLUTION.md, validates with Bicep tools, and wires up post-provisioning hooks.",
     status: "preview",
-    docPath: "docs/agents/README-infra-agent.md",
+    docPath: "docs/genai/agents/README-infra-agent.md",
   },
   {
     icon: GitBranch,
@@ -183,7 +188,7 @@ export const agents: Agent[] = [
     description:
       "Provisions Azure resources and creates automated CI/CD deployment pipelines with GitHub Actions or Azure DevOps.",
     status: "planned",
-    docPath: "",
+    docPath: "#",
   },
 ];
 
@@ -205,7 +210,7 @@ export const skills: Skill[] = [
     description:
       "Generate Azure architecture diagrams with 700+ official Microsoft icons — from Bicep/Terraform templates or solution specs.",
     provider: "faf",
-    docPath: "docs/skills/README-faf-azure-diagrams.md",
+    docPath: "docs/genai/skills/README-faf-diagrams.md",
   },
   {
     icon: CurrencyDollar,
@@ -213,7 +218,7 @@ export const skills: Skill[] = [
     description:
       "Answer how much Azure services cost, compare pricing across SKUs or regions, build cost estimates for architectures, and forecast Copilot Studio credits.",
     provider: "faf",
-    docPath: "docs/skills/README-faf-azure-pricing.md",
+    docPath: "docs/genai/skills/README-faf-azure-pricing.md",
   },
   {
     icon: Scales,
@@ -221,7 +226,7 @@ export const skills: Skill[] = [
     description:
       "Evaluate and recommend the best LLM model(s) for a customer application based on solution requirements, use case characteristics, cost constraints, and deployment preferences.",
     provider: "faf",
-    docPath: "",
+    docPath: "docs/genai/skills/README-faf-foundry-model-evaluation.md",
   },
   {
     icon: Package,
@@ -229,7 +234,7 @@ export const skills: Skill[] = [
     description:
       "Manage the lifecycle of knowledge base packages — discover, install, update, and remove FAF plugins to keep the codebase aligned with the latest components.",
     provider: "faf",
-    docPath: "docs/skills/README-faf-kb-manager.md",
+    docPath: "docs/genai/skills/README-faf-kb-manager.md",
   },
   {
     icon: FilePdf,
@@ -237,7 +242,7 @@ export const skills: Skill[] = [
     description:
       "Read, create, merge, split, watermark, encrypt, and OCR PDF files directly from the coding agent.",
     provider: "anthropic",
-    docPath: "",
+    docPath: "#",
   },
   {
     icon: FileDoc,
@@ -245,7 +250,7 @@ export const skills: Skill[] = [
     description:
       "Create, read, and edit Word documents with formatting, tables of contents, headings, and page layouts.",
     provider: "anthropic",
-    docPath: "",
+    docPath: "#",
   },
   {
     icon: Table,
@@ -253,7 +258,7 @@ export const skills: Skill[] = [
     description:
       "Open, edit, create, and transform spreadsheets — add columns, compute formulas, format, chart, and clean tabular data.",
     provider: "anthropic",
-    docPath: "",
+    docPath: "#",
   },
   {
     icon: Presentation,
@@ -261,7 +266,7 @@ export const skills: Skill[] = [
     description:
       "Create, read, edit, and combine slide decks — work with templates, layouts, speaker notes, and comments.",
     provider: "anthropic",
-    docPath: "",
+    docPath: "#",
   },
 ];
 
@@ -336,7 +341,7 @@ export const sampleOutputs: SampleOutput[] = [
     description:
       "A structured PRD synthesized from customer context, meeting transcripts, and use case descriptions — ready to hand off to the Architect.",
     tags: ["PRD", "Scoping", "Markdown", "PDF"],
-    link: `${REPO_URL}/blob/main/docs/agents/samples/analyst-agent-sample-prd.md`,
+    link: `${REPO_URL}/blob/main/docs/genai/agents/samples/analyst-agent-sample-prd.md`,
     previewImage: `${import.meta.env.BASE_URL}images/prd-preview.png`,
   },
   {
@@ -346,7 +351,7 @@ export const sampleOutputs: SampleOutput[] = [
     description:
       "A detailed solution spec covering system overview, component design, data flows, and integration points derived from the PRD.",
     tags: ["Solution Spec", "Architecture", "Markdown", "PDF"],
-    link: `${REPO_URL}/blob/main/docs/agents/samples/architect-agent-sample-solution-spec.md`,
+    link: `${REPO_URL}/blob/main/docs/genai/agents/samples/architect-agent-sample-solution-spec.md`,
     previewImage: `${import.meta.env.BASE_URL}images/solution-spec-preview.png`,
   },
   {
@@ -356,7 +361,7 @@ export const sampleOutputs: SampleOutput[] = [
     description:
       "Solution specification enriched with auto-generated Azure architecture diagrams using the azure-diagrams skill.",
     tags: ["Architecture", "Azure Diagrams", "PDF"],
-    link: `${REPO_URL}/blob/main/docs/agents/samples/architect-agent-sample-solution-spec-with-azure-diagram.md`,
+    link: `${REPO_URL}/blob/main/docs/genai/agents/samples/architect-agent-sample-solution-spec-with-azure-diagram.md`,
     previewImage: `${import.meta.env.BASE_URL}images/solution-spec-with-diagrams-review.png`,
   },
   {
@@ -366,7 +371,7 @@ export const sampleOutputs: SampleOutput[] = [
     description:
       "Technical architecture following the C4 model (Context → Container → Component → Class) for low-level design — used by the FAF Developer Agent to scaffold the solution structure, API contracts, and infrastructure.",
     tags: ["Architecture", "C4 Model", "Technical Design", "Markdown"],
-    link: `${REPO_URL}/blob/main/docs/agents/samples/architect-agent-sample-technical-architecture.md`,
+    link: `${REPO_URL}/blob/main/docs/genai/agents/samples/architect-agent-sample-technical-architecture.md`,
     previewImage: `${import.meta.env.BASE_URL}images/technical-spec-preview.png`,
   },
   {
@@ -376,7 +381,7 @@ export const sampleOutputs: SampleOutput[] = [
     description:
       "YAML metadata that provides the technical dimensions data source for accelerator comparison — mapping solution components to evaluation criteria and recommending Agentic Customization or Development paths.",
     tags: ["Metadata", "YAML", "Recommendation"],
-    link: `${REPO_URL}/blob/main/docs/agents/samples/impl-recommender-agent-sample-solution-metadata.yaml`,
+    link: `${REPO_URL}/blob/main/docs/genai/agents/samples/impl-recommender-agent-sample-solution-metadata.yaml`,
     previewImage: `${import.meta.env.BASE_URL}images/solution-metadata-preview.png`,
   },
   {
@@ -386,7 +391,7 @@ export const sampleOutputs: SampleOutput[] = [
     description:
       "Side-by-side comparison of available accelerators evaluated against solution requirements to recommend the best starting point.",
     tags: ["Comparison", "Accelerators", "Visual"],
-    link: `${REPO_URL}/blob/main/docs/agents/samples/impl-recommender-accelerator-comparison.png`,
+    link: `${REPO_URL}/blob/main/docs/genai/agents/samples/impl-recommender-accelerator-comparison.png`,
     previewImage: `${import.meta.env.BASE_URL}images/impl-recommender-accelerator-comparison.png`,
   },
   {
@@ -396,7 +401,7 @@ export const sampleOutputs: SampleOutput[] = [
     description:
       "Weighted scoring card that evaluates accelerators across dimensions like use case scenarios, LLM capabilities, data integration, UI integration, agents hosting, and programming languages.",
     tags: ["Scoring", "Evaluation", "Visual"],
-    link: `${REPO_URL}/blob/main/docs/agents/samples/impl-recommender-scoring-card-evaluation-sample.png`,
+    link: `${REPO_URL}/blob/main/docs/genai/agents/samples/impl-recommender-scoring-card-evaluation-sample.png`,
     previewImage: `${import.meta.env.BASE_URL}images/impl-recommender-scoring-card-evaluation-sample.png`,
   },
   {
@@ -406,7 +411,7 @@ export const sampleOutputs: SampleOutput[] = [
     description:
       "A complete feature specification with acceptance criteria broken down into individual user stories ready for implementation.",
     tags: ["Feature", "User Stories", "Backlog"],
-    link: `${REPO_URL}/tree/main/docs/agents/samples/product-owner-feature-sample`,
+    link: `${REPO_URL}/tree/main/docs/genai/agents/samples/product-owner-feature-sample`,
     previewImage: `${import.meta.env.BASE_URL}images/feature-preview.png`,
   },
 ];
