@@ -438,14 +438,14 @@ export const gettingStartedPaths: GettingStartedPath[] = [
     ctaLink: `${REPO_URL}/blob/main/docs/marketplace/INSTALL.md`,
   },
   {
-    title: "From Source",
+    title: "GitHub Copilot CLI",
     icon: Terminal,
     steps: [
-      "Clone the repository to your machine",
-      "Open in VS Code with GitHub Copilot enabled",
-      "Agents, skills, and prompts auto-discover from .github/",
+      "Open GitHub Copilot CLI",
+      "Add the Agent Forge repository as a plugin marketplace",
+      "Browse the marketplace and install the core and workstream specific plugins",
     ],
-    cta: "View on GitHub",
-    ctaLink: REPO_URL,
+    cta: "View CLI Install Guide",
+    ctaLink: `${REPO_URL}/blob/main/docs/marketplace/INSTALL.md#mode-2--using-copilot-cli`,
   },
 ];
