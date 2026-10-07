@@ -22,10 +22,10 @@ import {
   CurrencyDollar,
   Graph,
   Package,
-  FilePdf,
-  FileDoc,
-  Table,
-  Presentation,
+  Files,
+  FlowArrow,
+  Ranking,
+  Signature,
   Scales,
 } from "@phosphor-icons/react";
 
@@ -72,7 +72,7 @@ export interface Stat {
 
 export const stats: Stat[] = [
   { icon: Robot, value: "7", label: "Agents" },
-  { icon: Lightning, value: "7", label: "Skills" },
+  { icon: Lightning, value: "8", label: "Skills" },
   { icon: ArrowsSplit, value: "6", label: "Scenarios" },
   { icon: Cube, value: "5+", label: "Projects Built" },
 ];
@@ -205,16 +205,24 @@ export interface Skill {
 
 export const skills: Skill[] = [
   {
-    icon: Graph,
-    name: "Azure Diagrams",
+    icon: FlowArrow,
+    name: "Diagrams",
     description:
-      "Generate Azure architecture diagrams with 700+ official Microsoft icons — from Bicep/Terraform templates or solution specs.",
+      "Technical diagramming toolkit — business process flows and swimlanes, ERDs, project timelines, UI wireframes, sequence diagrams, and network topologies.",
     provider: "faf",
     docPath: "docs/genai/skills/README-faf-diagrams.md",
   },
   {
+    icon: Graph,
+    name: "Azure & Copilot Architecture Diagrams",
+    description:
+      "Generate Azure and Copilot Studio architecture diagrams as native .drawio files with official Azure icons and layout validation — optionally exported to PNG, SVG, or PDF.",
+    provider: "faf",
+    docPath: "docs/genai/skills/README-faf-drawio-azure-diagrams.md",
+  },
+  {
     icon: CurrencyDollar,
-    name: "Azure Pricing",
+    name: "Azure & Copilot Studio Pricing",
     description:
       "Answer how much Azure services cost, compare pricing across SKUs or regions, build cost estimates for architectures, and forecast Copilot Studio credits.",
     provider: "faf",
@@ -237,34 +245,26 @@ export const skills: Skill[] = [
     docPath: "docs/genai/skills/README-faf-kb-manager.md",
   },
   {
-    icon: FilePdf,
-    name: "PDF",
+    icon: Ranking,
+    name: "AI Initiative Prioritization",
     description:
-      "Read, create, merge, split, watermark, encrypt, and OCR PDF files directly from the coding agent.",
-    provider: "anthropic",
-    docPath: "#",
+      "Score an AI initiative from transcripts, PRDs, specs, or emails across Value, Feasibility, and Readiness — assign a priority tier and generate an HTML leadership report with charts and drill-downs.",
+    provider: "faf",
+    docPath: "docs/genai/skills/README-faf-ai-prioritization.md",
   },
   {
-    icon: FileDoc,
-    name: "Word (DOCX)",
+    icon: Signature,
+    name: "Scope Document (SSD)",
     description:
-      "Create, read, and edit Word documents with formatting, tables of contents, headings, and page layouts.",
-    provider: "anthropic",
-    docPath: "#",
+      "Generate Solution Scope Sign-Off Documents from the PRD and Solution Spec — with architecture diagrams and optional Word export — to align with customers on PoC/MVP scope and design.",
+    provider: "faf",
+    docPath: "docs/genai/skills/README-faf-scope-document.md",
   },
   {
-    icon: Table,
-    name: "Excel (XLSX)",
+    icon: Files,
+    name: "Office 365",
     description:
-      "Open, edit, create, and transform spreadsheets — add columns, compute formulas, format, chart, and clean tabular data.",
-    provider: "anthropic",
-    docPath: "#",
-  },
-  {
-    icon: Presentation,
-    name: "PowerPoint (PPTX)",
-    description:
-      "Create, read, edit, and combine slide decks — work with templates, layouts, speaker notes, and comments.",
+      "Create, read, and edit Word, Excel, PowerPoint, and PDF files — documents, spreadsheets with formulas and charts, slide decks with templates and speaker notes, plus PDF merge, split, forms, and OCR.",
     provider: "anthropic",
     docPath: "#",
   },
@@ -335,6 +335,16 @@ export interface SampleOutput {
 
 export const sampleOutputs: SampleOutput[] = [
   {
+    icon: Ranking,
+    title: "AI Initiative Prioritization Report",
+    agentName: "AI Initiative Prioritization Skill",
+    description:
+      "HTML leadership report that ranks AI initiatives by priority tier — scoring each on Value, Feasibility, and Readiness with confidence levels, open gates, and next steps, plus a drill-down report per initiative.",
+    tags: ["Prioritization", "Scoping", "HTML Report"],
+    link: `${REPO_URL}/blob/main/docs/genai/skills/README-faf-ai-prioritization.md`,
+    previewImage: `${import.meta.env.BASE_URL}images/ai-prioritization-portfolio-sample.png`,
+  },
+  {
     icon: FileText,
     title: "Product Requirements Document",
     agentName: "Analyst Agent",
@@ -362,7 +372,7 @@ export const sampleOutputs: SampleOutput[] = [
       "Solution specification enriched with auto-generated Azure architecture diagrams using the azure-diagrams skill.",
     tags: ["Architecture", "Azure Diagrams", "PDF"],
     link: `${REPO_URL}/blob/main/docs/genai/agents/samples/architect-agent-sample-solution-spec-with-azure-diagram.md`,
-    previewImage: `${import.meta.env.BASE_URL}images/solution-spec-with-diagrams-review.png`,
+    previewImage: `${import.meta.env.BASE_URL}images/invoice-processing-architecture.png`,
   },
   {
     icon: TreeStructure,
