@@ -546,15 +546,57 @@ function TechnologyPillarsSection() {
 /* ================================================================
    AGENTIC SCENARIOS (Interactive SVG Visualizations)
    ================================================================ */
+type FlowOutputKind = "doc" | "outcome";
+
+const FLOW_OUTPUT_COLOR = "#6ee7b7";
+
+function FlowOutputIcon({ kind, x, y }: { kind: FlowOutputKind; x: number; y: number }) {
+  if (kind === "doc") {
+    return (
+      <g stroke={FLOW_OUTPUT_COLOR} strokeWidth={0.9} strokeLinejoin="round" strokeLinecap="round" fill="none">
+        <path d={`M${x},${y} h5 l3,3 v7 h-8 z`} fill="rgba(110,231,183,0.12)" />
+        <path d={`M${x + 5},${y} v3 h3`} />
+        <path d={`M${x + 2},${y + 5.5} h4 M${x + 2},${y + 7.5} h3`} />
+      </g>
+    );
+  }
+  return (
+    <g stroke={FLOW_OUTPUT_COLOR} strokeWidth={0.9} strokeLinejoin="round" strokeLinecap="round" fill="none">
+      <circle cx={x + 4.5} cy={y + 5} r={4.5} fill="rgba(110,231,183,0.12)" />
+      <path d={`M${x + 2.3},${y + 5.1} l1.5,1.5 l2.9,-3`} />
+    </g>
+  );
+}
+
+function FlowOutputLabel({ cx, y, text, kind }: { cx: number; y: number; text: string; kind: FlowOutputKind }) {
+  const iconW = 9;
+  const gap = 4;
+  const textW = text.length * 5.1;
+  const startX = cx - (iconW + gap + textW) / 2;
+  return (
+    <g>
+      <title>{kind === "doc" ? `Document for human review: ${text}` : `Outcome: ${text}`}</title>
+      <FlowOutputIcon kind={kind} x={startX} y={y - 8.5} />
+      <text
+        x={startX + iconW + gap} y={y}
+        fill={FLOW_OUTPUT_COLOR} fontSize={9.5}
+        fontFamily="Inter,system-ui,sans-serif"
+      >
+        {text}
+      </text>
+    </g>
+  );
+}
+
 function CustomizationFlowSVG() {
   const [hovered, setHovered] = useState<number | null>(null);
 
   const nodes = [
-    { x: 10, w: 160, lines: ["Analyst &", "Architect"], phase: "SCOPING", sub: "PRD & Solution Spec", agents: ["Analyst", "Architect"] },
-    { x: 198, w: 160, lines: ["Accelerator", "Selection"], phase: "EVALUATION", sub: "Best-fit template", agents: ["Impl Rec."] },
-    { x: 386, w: 160, lines: ["Customization", "Backlog"], phase: "PLANNING", sub: "Gap backlog", agents: ["Product Owner"] },
-    { x: 574, w: 160, lines: ["Developer", "Customization"], phase: "DELIVERY", sub: "Template adaptation", agents: ["Developer"] },
-    { x: 762, w: 150, lines: ["Production", "Solution"], phase: "OUTPUT", sub: "Customer-ready app", agents: [] as string[] },
+    { x: 10, w: 160, lines: ["Requirements &", "Architecture"], phase: "SCOPING", sub: "PRD & Solution Spec", kind: "doc" as FlowOutputKind, agents: ["Analyst", "Architect"] },
+    { x: 198, w: 160, lines: ["Accelerator", "Selection"], phase: "EVALUATION", sub: "Scoring card", kind: "doc" as FlowOutputKind, agents: ["Impl Rec."] },
+    { x: 386, w: 160, lines: ["Customization", "Backlog"], phase: "PLANNING", sub: "Gap backlog", kind: "doc" as FlowOutputKind, agents: ["Product Owner"] },
+    { x: 574, w: 160, lines: ["Developer", "Customization"], phase: "DELIVERY", sub: "Template adaptation", kind: "outcome" as FlowOutputKind, agents: ["Developer"] },
+    { x: 762, w: 150, lines: ["Production", "Solution"], phase: "OUTPUT", sub: "Customer-ready app", kind: "outcome" as FlowOutputKind, agents: [] as string[] },
   ];
 
   const nodeY = 40;
@@ -702,13 +744,7 @@ function CustomizationFlowSVG() {
                 </g>
               );
             })}
-            <text
-              x={cx} y={nodeY + nodeH + 16} textAnchor="middle"
-              fill="#52525b" fontSize={9.5}
-              fontFamily="Inter,system-ui,sans-serif"
-            >
-              {n.sub}
-            </text>
+            <FlowOutputLabel cx={cx} y={nodeY + nodeH + 16} text={n.sub} kind={n.kind} />
           </g>
         );
       })}
@@ -794,12 +830,12 @@ function DevelopmentFlowSVG() {
   const cy = nodeY + nodeH / 2;
 
   const nodes = [
-    { x: 10, w: 145, lines: ["Analyst &", "Architect"], phase: "SCOPING", sub: "PRD & Solution Spec", agents: ["Analyst"] },
-    { x: 183, w: 145, lines: ["Detailed", "Design"], phase: "DESIGN", sub: "Technical Spec", agents: ["Architect"] },
-    { x: 356, w: 155, lines: ["Solution", "Scaffolding"], phase: "SCAFFOLDING", sub: "Code & Infra setup", agents: ["Impl Rec.", "Infra"] },
-    { x: 539, w: 145, lines: ["Backlog", "Planning"], phase: "PLANNING", sub: "Feature backlog", agents: ["Product Owner"] },
-    { x: 712, w: 155, lines: ["Developer", "Implementation"], phase: "IMPLEMENTATION", sub: "Build features", agents: ["Developer"] },
-    { x: 895, w: 145, lines: ["Custom", "Solution"], phase: "OUTPUT", sub: "Custom application", agents: [] as string[] },
+    { x: 10, w: 145, lines: ["Requirements &", "Architecture"], phase: "SCOPING", sub: "PRD & Solution Spec", kind: "doc" as FlowOutputKind, agents: ["Analyst", "Architect"] },
+    { x: 183, w: 145, lines: ["Detailed", "Design"], phase: "DESIGN", sub: "Technical Spec", kind: "doc" as FlowOutputKind, agents: ["Architect"] },
+    { x: 356, w: 155, lines: ["Solution", "Scaffolding"], phase: "SCAFFOLDING", sub: "Code & Infra setup", kind: "outcome" as FlowOutputKind, agents: ["Impl Rec.", "Infra"] },
+    { x: 539, w: 145, lines: ["Backlog", "Planning"], phase: "PLANNING", sub: "Feature backlog", kind: "doc" as FlowOutputKind, agents: ["Product Owner"] },
+    { x: 712, w: 155, lines: ["Developer", "Implementation"], phase: "IMPLEMENTATION", sub: "Build features", kind: "outcome" as FlowOutputKind, agents: ["Developer"] },
+    { x: 895, w: 145, lines: ["Custom", "Solution"], phase: "OUTPUT", sub: "Custom application", kind: "outcome" as FlowOutputKind, agents: [] as string[] },
   ];
 
   return (
@@ -943,13 +979,7 @@ function DevelopmentFlowSVG() {
                 </g>
               );
             })}
-            <text
-              x={cx} y={nodeY + nodeH + 16} textAnchor="middle"
-              fill="#52525b" fontSize={9.5}
-              fontFamily="Inter,system-ui,sans-serif"
-            >
-              {n.sub}
-            </text>
+            <FlowOutputLabel cx={cx} y={nodeY + nodeH + 16} text={n.sub} kind={n.kind} />
           </g>
         );
       })}
